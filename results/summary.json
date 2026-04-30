@@ -1,0 +1,55 @@
+{
+  "timestamp": "2026-04-30T10:51:52.627839",
+  "location": "Ngã Tư Sở – Nguyễn Trãi, Hà Nội",
+  "framework": "SUMO 1.18 + TraCI + Attn-RNN (PyTorch)",
+  "n_test": 8,
+  "metrics": {
+    "ARIMA": {
+      "MAE": 30.1459,
+      "RMSE": 31.4943,
+      "MAPE": 130.1547
+    },
+    "SVR (RBF)": {
+      "MAE": 8.1732,
+      "RMSE": 9.3978,
+      "MAPE": 36.9677
+    },
+    "LSTM cơ bản": {
+      "MAE": 7.8211,
+      "RMSE": 8.0258,
+      "MAPE": 33.2924
+    },
+    "Attn-RNN": {
+      "MAE": 12.6601,
+      "RMSE": 13.3619,
+      "MAPE": 55.0235
+    }
+  },
+  "ablation": {
+    "LSTM đơn biến": {
+      "MAE": 6.3946,
+      "RMSE": 6.4949,
+      "MAPE": 26.9465
+    },
+    "LSTM + Attention": {
+      "MAE": 4.7741,
+      "RMSE": 5.5361,
+      "MAPE": 17.9257
+    },
+    "Đa đặc trưng (LSTM)": {
+      "MAE": 7.8211,
+      "RMSE": 8.0258,
+      "MAPE": 33.2924
+    },
+    "Attn-RNN (đề xuất)": {
+      "MAE": 12.6601,
+      "RMSE": 13.3619,
+      "MAPE": 55.0235
+    }
+  },
+  "adaptive_ctrl": {
+    "wait_reduction_pct": 43.8,
+    "throughput_increase_pct": 25.0
+  },
+  "elapsed_s": 16.9
+}

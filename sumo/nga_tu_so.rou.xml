@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  File định tuyến – Ngã Tư Sở, Hà Nội
+  Mạng lưới: netgenerate 2×2 grid
+  Ngã tư trung tâm mô phỏng: B0 (450,150)
+    IN : A0B0 (Nguyễn Trãi–Bắc), bottom1B0 (Nguyễn Trãi–Nam),
+         right0B0 (Trường Chinh–Đông), B1B0 (Tây Sơn–Tây)
+    OUT: B0A0, B0bottom1, B0right0, B0B1
+  Tỷ lệ phương tiện: xe máy 92.7%, ô tô 5%, xe buýt 2.3%
+  Mô hình Krauss: sigma=0.3, tau=1.4s
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+
+    <!-- ── VEHICLE TYPES ── -->
+    <vType id="motorcycle" vClass="motorcycle" guiShape="motorcycle"
+           length="2.2" minGap="0.8" maxSpeed="13.9"
+           accel="2.6" decel="4.5" sigma="0.3" tau="1.4"
+           speedDev="0.25" color="0.2,0.6,1.0"
+           carFollowModel="Krauss"
+           lcStrategic="1.8" lcCooperative="0.4" lcSpeedGain="2.0"/>
+
+    <vType id="car" vClass="passenger" guiShape="passenger"
+           length="4.5" minGap="2.0" maxSpeed="13.9"
+           accel="2.0" decel="4.0" sigma="0.3" tau="1.4"
+           speedDev="0.1" color="1.0,0.5,0.0"
+           carFollowModel="Krauss"/>
+
+    <vType id="bus" vClass="bus" guiShape="bus"
+           length="12.0" minGap="2.5" maxSpeed="11.1"
+           accel="1.0" decel="3.5" sigma="0.3" tau="1.6"
+           speedDev="0.05" color="0.0,0.7,0.2"
+           carFollowModel="Krauss"/>
+
+    <!-- ── ROUTES qua ngã tư B0 ── -->
+    <!-- Nguyễn Trãi: Bắc→Nam -->
+    <route id="r_NtoS" edges="A0B0 B0bottom1"/>
+    <!-- Nguyễn Trãi: Nam→Bắc -->
+    <route id="r_StoN" edges="bottom1B0 B0A0"/>
+    <!-- Tây Sơn→Trường Chinh (Tây→Đông) -->
+    <route id="r_WtoE" edges="B1B0 B0right0"/>
+    <!-- Trường Chinh→Tây Sơn (Đông→Tây) -->
+    <route id="r_EtoW" edges="right0B0 B0B1"/>
+    <!-- Rẽ: Bắc→Đông -->
+    <route id="r_NtoE" edges="A0B0 B0right0"/>
+    <!-- Rẽ: Nam→Tây -->
+    <route id="r_StoW" edges="bottom1B0 B0B1"/>
+    <!-- Rẽ: Tây→Nam -->
+    <route id="r_WtoS" edges="B1B0 B0bottom1"/>
+    <!-- Rẽ: Đông→Bắc -->
+    <route id="r_EtoN" edges="right0B0 B0A0"/>
+
+    <!-- ═══════════════════════════════════════════
+         GIAI ĐOẠN 1 – Bình thường (0–900s)
+         Tổng ~700 xe/h qua ngã tư
+    ════════════════════════════════════════════ -->
+    <!-- Nguyễn Trãi Bắc→Nam -->
+    <flow id="f1_NtoS_mc"  type="motorcycle" route="r_NtoS" begin="0"   end="900"  vehsPerHour="320" departLane="random" departSpeed="max"/>
+    <flow id="f1_NtoS_car" type="car"        route="r_NtoS" begin="0"   end="900"  vehsPerHour="18"  departLane="random" departSpeed="max"/>
+    <flow id="f1_NtoS_bus" type="bus"        route="r_NtoS" begin="0"   end="900"  vehsPerHour="6"   departLane="random" departSpeed="max"/>
+    <!-- Nam→Bắc -->
+    <flow id="f1_StoN_mc"  type="motorcycle" route="r_StoN" begin="0"   end="900"  vehsPerHour="300" departLane="random" departSpeed="max"/>
+    <flow id="f1_StoN_car" type="car"        route="r_StoN" begin="0"   end="900"  vehsPerHour="16"  departLane="random" departSpeed="max"/>
+    <!-- Tây→Đông -->
+    <flow id="f1_WtoE_mc"  type="motorcycle" route="r_WtoE" begin="0"   end="900"  vehsPerHour="180" departLane="random" departSpeed="max"/>
+    <flow id="f1_WtoE_car" type="car"        route="r_WtoE" begin="0"   end="900"  vehsPerHour="10"  departLane="random" departSpeed="max"/>
+    <!-- Đông→Tây -->
+    <flow id="f1_EtoW_mc"  type="motorcycle" route="r_EtoW" begin="0"   end="900"  vehsPerHour="170" departLane="random" departSpeed="max"/>
+    <!-- Rẽ -->
+    <flow id="f1_NtoE_mc"  type="motorcycle" route="r_NtoE" begin="0"   end="900"  vehsPerHour="60"  departLane="random" departSpeed="max"/>
+    <flow id="f1_StoW_mc"  type="motorcycle" route="r_StoW" begin="0"   end="900"  vehsPerHour="55"  departLane="random" departSpeed="max"/>
+    <flow id="f1_WtoS_mc"  type="motorcycle" route="r_WtoS" begin="0"   end="900"  vehsPerHour="50"  departLane="random" departSpeed="max"/>
+    <flow id="f1_EtoN_mc"  type="motorcycle" route="r_EtoN" begin="0"   end="900"  vehsPerHour="55"  departLane="random" departSpeed="max"/>
+
+    <!-- ═══════════════════════════════════════════
+         GIAI ĐOẠN 2 – Cao điểm tăng dần (900–1800s)
+         Tổng ~1 400 xe/h → bắt đầu ùn tắc
+    ════════════════════════════════════════════ -->
+    <flow id="f2_NtoS_mc"  type="motorcycle" route="r_NtoS" begin="900"  end="1800" vehsPerHour="600" departLane="random" departSpeed="max"/>
+    <flow id="f2_NtoS_car" type="car"        route="r_NtoS" begin="900"  end="1800" vehsPerHour="35"  departLane="random" departSpeed="max"/>
+    <flow id="f2_NtoS_bus" type="bus"        route="r_NtoS" begin="900"  end="1800" vehsPerHour="10"  departLane="random" departSpeed="max"/>
+    <flow id="f2_StoN_mc"  type="motorcycle" route="r_StoN" begin="900"  end="1800" vehsPerHour="560" departLane="random" departSpeed="max"/>
+    <flow id="f2_StoN_car" type="car"        route="r_StoN" begin="900"  end="1800" vehsPerHour="30"  departLane="random" departSpeed="max"/>
+    <flow id="f2_WtoE_mc"  type="motorcycle" route="r_WtoE" begin="900"  end="1800" vehsPerHour="360" departLane="random" departSpeed="max"/>
+    <flow id="f2_WtoE_car" type="car"        route="r_WtoE" begin="900"  end="1800" vehsPerHour="22"  departLane="random" departSpeed="max"/>
+    <flow id="f2_EtoW_mc"  type="motorcycle" route="r_EtoW" begin="900"  end="1800" vehsPerHour="340" departLane="random" departSpeed="max"/>
+    <flow id="f2_NtoE_mc"  type="motorcycle" route="r_NtoE" begin="900"  end="1800" vehsPerHour="110" departLane="random" departSpeed="max"/>
+    <flow id="f2_StoW_mc"  type="motorcycle" route="r_StoW" begin="900"  end="1800" vehsPerHour="100" departLane="random" departSpeed="max"/>
+    <flow id="f2_WtoS_mc"  type="motorcycle" route="r_WtoS" begin="900"  end="1800" vehsPerHour="95"  departLane="random" departSpeed="max"/>
+    <flow id="f2_EtoN_mc"  type="motorcycle" route="r_EtoN" begin="900"  end="1800" vehsPerHour="105" departLane="random" departSpeed="max"/>
+
+    <!-- ═══════════════════════════════════════════
+         GIAI ĐOẠN 3 – Ùn tắc nặng / quá bão hòa (1800–2700s)
+         Tổng ~2 200 xe/h → shockwave
+    ════════════════════════════════════════════ -->
+    <flow id="f3_NtoS_mc"  type="motorcycle" route="r_NtoS" begin="1800" end="2700" vehsPerHour="860" departLane="random" departSpeed="max"/>
+    <flow id="f3_NtoS_car" type="car"        route="r_NtoS" begin="1800" end="2700" vehsPerHour="52"  departLane="random" departSpeed="max"/>
+    <flow id="f3_NtoS_bus" type="bus"        route="r_NtoS" begin="1800" end="2700" vehsPerHour="14"  departLane="random" departSpeed="max"/>
+    <flow id="f3_StoN_mc"  type="motorcycle" route="r_StoN" begin="1800" end="2700" vehsPerHour="800" departLane="random" departSpeed="max"/>
+    <flow id="f3_StoN_car" type="car"        route="r_StoN" begin="1800" end="2700" vehsPerHour="48"  departLane="random" departSpeed="max"/>
+    <flow id="f3_WtoE_mc"  type="motorcycle" route="r_WtoE" begin="1800" end="2700" vehsPerHour="520" departLane="random" departSpeed="max"/>
+    <flow id="f3_WtoE_car" type="car"        route="r_WtoE" begin="1800" end="2700" vehsPerHour="33"  departLane="random" departSpeed="max"/>
+    <flow id="f3_EtoW_mc"  type="motorcycle" route="r_EtoW" begin="1800" end="2700" vehsPerHour="490" departLane="random" departSpeed="max"/>
+    <flow id="f3_NtoE_mc"  type="motorcycle" route="r_NtoE" begin="1800" end="2700" vehsPerHour="160" departLane="random" departSpeed="max"/>
+    <flow id="f3_StoW_mc"  type="motorcycle" route="r_StoW" begin="1800" end="2700" vehsPerHour="150" departLane="random" departSpeed="max"/>
+    <flow id="f3_WtoS_mc"  type="motorcycle" route="r_WtoS" begin="1800" end="2700" vehsPerHour="145" departLane="random" departSpeed="max"/>
+    <flow id="f3_EtoN_mc"  type="motorcycle" route="r_EtoN" begin="1800" end="2700" vehsPerHour="155" departLane="random" departSpeed="max"/>
+
+    <!-- ═══════════════════════════════════════════
+         GIAI ĐOẠN 4 – Hồi phục (2700–3600s)
+    ════════════════════════════════════════════ -->
+    <flow id="f4_NtoS_mc"  type="motorcycle" route="r_NtoS" begin="2700" end="3600" vehsPerHour="380" departLane="random" departSpeed="max"/>
+    <flow id="f4_NtoS_car" type="car"        route="r_NtoS" begin="2700" end="3600" vehsPerHour="22"  departLane="random" departSpeed="max"/>
+    <flow id="f4_NtoS_bus" type="bus"        route="r_NtoS" begin="2700" end="3600" vehsPerHour="7"   departLane="random" departSpeed="max"/>
+    <flow id="f4_StoN_mc"  type="motorcycle" route="r_StoN" begin="2700" end="3600" vehsPerHour="360" departLane="random" departSpeed="max"/>
+    <flow id="f4_WtoE_mc"  type="motorcycle" route="r_WtoE" begin="2700" end="3600" vehsPerHour="220" departLane="random" departSpeed="max"/>
+    <flow id="f4_EtoW_mc"  type="motorcycle" route="r_EtoW" begin="2700" end="3600" vehsPerHour="210" departLane="random" departSpeed="max"/>
+    <flow id="f4_NtoE_mc"  type="motorcycle" route="r_NtoE" begin="2700" end="3600" vehsPerHour="65"  departLane="random" departSpeed="max"/>
+    <flow id="f4_StoW_mc"  type="motorcycle" route="r_StoW" begin="2700" end="3600" vehsPerHour="60"  departLane="random" departSpeed="max"/>
+
+</routes>

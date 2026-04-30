@@ -1,0 +1,20 @@
+<configuration>
+    <input>
+        <net-file value="nga_tu_so.net.xml"/>
+        <route-files value="nga_tu_so.rou.xml"/>
+    </input>
+    <time>
+        <begin value="0"/>
+        <end value="3600"/>
+        <step-length value="1"/>
+    </time>
+    <processing>
+        <ignore-route-errors value="true"/>
+        <time-to-teleport value="200"/>
+        <collision.action value="warn"/>
+    </processing>
+    <report>
+        <verbose value="false"/>
+        <no-step-log value="true"/>
+    </report>
+</configuration>
